@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: registry.redhat.io/rhscl/mariadb-102-rhel7
+          image: registry.redhat.io/rhscl/mariadb-105-rhel7
           ports:
             - containerPort: 3306
               name: db-port
