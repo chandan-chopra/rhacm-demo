@@ -4,7 +4,7 @@ metadata:
   annotations:
     openshift.io/generated-by: OpenShiftNewApp
     template.alpha.openshift.io/wait-for-ready: "true"
-  creationTimestamp: "2022-03-22T07:15:15Z"
+  creationTimestamp: "2022-03-22T09:21:09Z"
   generation: 2
   labels:
     app: mariadb-ephemeral
@@ -146,7 +146,7 @@ metadata:
                 f:name: {}
     manager: oc
     operation: Update
-    time: "2022-03-22T07:15:15Z"
+    time: "2022-03-22T09:21:09Z"
   - apiVersion: apps.openshift.io/v1
     fieldsType: FieldsV1
     fieldsV1:
@@ -188,12 +188,12 @@ metadata:
         f:updatedReplicas: {}
     manager: openshift-controller-manager
     operation: Update
-    time: "2022-03-22T07:15:35Z"
+    time: "2022-03-22T09:21:36Z"
   name: mariadb
   namespace: mariadb
-  resourceVersion: "4062826"
+  resourceVersion: "4123188"
   selfLink: /apis/apps.openshift.io/v1/namespaces/mariadb/deploymentconfigs/mariadb
-  uid: c77cf587-aaae-4fdb-88f4-122c091b50e1
+  uid: 77aa5f5c-4846-4e85-a95a-d6e2e4595141
 spec:
   replicas: 1
   revisionHistoryLimit: 10
@@ -215,10 +215,25 @@ spec:
     spec:
       containers:
       - env:
-        - name: MARIADB_ROOT_PASSWORD
+        - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              key: MYSQL_ROOT_PASSWORD
+              key: database-user
+              name: mariadb
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: mariadb
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-root-password
+              name: mariadb
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: database-name
               name: mariadb
         image: image-registry.openshift-image-registry.svc:5000/openshift/mariadb@sha256:351473ff2d1156565531b771d5e2f550750691934ba5d555a0f91e80273cfb9d
         imagePullPolicy: IfNotPresent
@@ -228,7 +243,7 @@ spec:
             - /bin/sh
             - -i
             - -c
-            - MYSQL_PWD="$MARIADB_ROOT_PASSWORD" mysqladmin -uroot ping
+            - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
           failureThreshold: 3
           initialDelaySeconds: 30
           periodSeconds: 10
@@ -244,7 +259,7 @@ spec:
             - /bin/sh
             - -i
             - -c
-            - MYSQL_PWD="$MARIADB_ROOT_PASSWORD" mysqladmin -uroot ping
+            - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
           failureThreshold: 3
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -282,13 +297,13 @@ spec:
 status:
   availableReplicas: 1
   conditions:
-  - lastTransitionTime: "2022-03-22T07:15:34Z"
-    lastUpdateTime: "2022-03-22T07:15:34Z"
+  - lastTransitionTime: "2022-03-22T09:21:34Z"
+    lastUpdateTime: "2022-03-22T09:21:34Z"
     message: Deployment config has minimum availability.
     status: "True"
     type: Available
-  - lastTransitionTime: "2022-03-22T07:15:35Z"
-    lastUpdateTime: "2022-03-22T07:15:35Z"
+  - lastTransitionTime: "2022-03-22T09:21:36Z"
+    lastUpdateTime: "2022-03-22T09:21:36Z"
     message: replication controller "mariadb-1" successfully rolled out
     reason: NewReplicationControllerAvailable
     status: "True"
