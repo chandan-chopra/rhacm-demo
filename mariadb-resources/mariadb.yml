@@ -18,7 +18,8 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: registry.redhat.io/rhscl/mariadb-105-rhel7
+#          image: registry.redhat.io/rhscl/mariadb-105-rhel7
+          image: image-registry.openshift-image-registry.svc:5000/openshift/mariadb@sha256:351473ff2d1156565531b771d5e2f550750691934ba5d555a0f91e80273cfb9d
           ports:
             - containerPort: 3306
               name: db-port
