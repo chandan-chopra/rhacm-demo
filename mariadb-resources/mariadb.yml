@@ -225,10 +225,10 @@ spec:
             secretKeyRef:
               key: database-password
               name: mariadb
-        - name: MYSQL_ROOT_PASSWORD
+        - name: MARIADB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              key: database-root-password
+              key: MYSQL_ROOT_PASSWORD
               name: mariadb
         - name: MYSQL_DATABASE
           valueFrom:
@@ -243,7 +243,7 @@ spec:
             - /bin/sh
             - -i
             - -c
-            - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            - MYSQL_PWD="$MARIADB_ROOT_PASSWORD" mysqladmin -uroot ping
           failureThreshold: 3
           initialDelaySeconds: 30
           periodSeconds: 10
@@ -259,7 +259,7 @@ spec:
             - /bin/sh
             - -i
             - -c
-            - MYSQL_PWD="$MYSQL_PASSWORD" mysqladmin -u $MYSQL_USER ping
+            - MYSQL_PWD="$MARIADB_ROOT_PASSWORD" mysqladmin -uroot ping
           failureThreshold: 3
           initialDelaySeconds: 5
           periodSeconds: 10
